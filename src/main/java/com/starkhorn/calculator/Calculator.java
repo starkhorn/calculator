@@ -31,14 +31,14 @@ public class Calculator {
 	}
 
 	private String evaluate(String input) throws ScriptException {
-		String evaluated_output = jsEngine.eval(input).toString();
-		Double output_number = Double.valueOf(evaluated_output);
+		String evaluatedOutput = jsEngine.eval(input).toString();
+		Double outputNumber = Double.valueOf(evaluatedOutput);
 		
-		if (isInvalid(output_number)) {
+		if (isInvalid(outputNumber)) {
 			throw new ScriptException("Error: invalid input");
 		}
 		
-		return formatter.format(output_number);
+		return formatter.format(outputNumber);
 	}
 
 	private boolean isInvalid(Double output) {
