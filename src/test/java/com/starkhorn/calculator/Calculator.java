@@ -10,10 +10,12 @@ public class Calculator {
 
 	private final ScriptEngineManager scriptManager;
 	private final ScriptEngine jsEngine;
+	private final DecimalFormat formatter;
 
 	public Calculator() {
 		scriptManager = new ScriptEngineManager();
 		jsEngine = scriptManager.getEngineByName("js");
+		formatter = new DecimalFormat("0.#####");
 	}
 
 	public String run(String input) throws Throwable {
@@ -29,14 +31,18 @@ public class Calculator {
 	}
 
 	private String evaluate(String input) throws ScriptException {
-		Double output = Double.valueOf(jsEngine.eval(input).toString());
+		String evaluated_output = jsEngine.eval(input).toString();
+		Double output_number = Double.valueOf(evaluated_output);
 		
-		if (output.isInfinite() || output.isNaN()) {
+		if (isInvalid(output_number)) {
 			throw new ScriptException("Error: invalid input");
 		}
 		
-		DecimalFormat formatter = new DecimalFormat("0.#####");
-		return formatter.format(output);
+		return formatter.format(output_number);
+	}
+
+	private boolean isInvalid(Double output) {
+		return output.isInfinite() || output.isNaN();
 	}
 
 }
