@@ -8,7 +8,7 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		features = "target/test-classes/features",
-		format = "pretty"
+		format = { "pretty", "html:target/test-reports" }
 )
 
 public class FeatureRunner {
