@@ -1,11 +1,17 @@
 Feature: Division
 
-	Scenario: Divide two numbers
-		Given the input "10/5"
+	Scenario Outline: Divide two numbers
+		Given the input "<input>"
 		When the calculator is run
-		Then the output should be "2"
+		Then the output should be "<output>"
 		
-	Scenario: Divide by zero
-		Given the input "10/0"
-		When the calculator is run
-		Then the output should be "Error: invalid input"
+		Examples:
+			| input    | output                     |
+			| 10/5     | 2                          |
+			| 10/0     | Error: invalid input       |
+			| 5/2      | 2.5                        |
+			| 6.25/2   | 3.125                      | 
+			| 7/3      | 2.33333                    |
+			| 11/3     | 3.66667                    |
+			| 0/5      | 0                          |
+			| 0/0      | Error: invalid input       |

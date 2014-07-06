@@ -1,5 +1,7 @@
 package com.starkhorn.calculator;
 
+import java.text.DecimalFormat;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -27,14 +29,14 @@ public class Calculator {
 	}
 
 	private String evaluate(String input) throws ScriptException {
-		Object output = jsEngine.eval(input);
-		boolean isFinite = (Boolean) jsEngine.eval("isFinite(" + output + ")");
+		Double output = Double.valueOf(jsEngine.eval(input).toString());
 		
-		if (!isFinite) {
+		if (output.isInfinite() || output.isNaN()) {
 			throw new ScriptException("Error: invalid input");
 		}
 		
-		return output.toString();
+		DecimalFormat formatter = new DecimalFormat("0.#####");
+		return formatter.format(output);
 	}
 
 }
