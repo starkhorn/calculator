@@ -14,12 +14,27 @@ public class Calculator {
 		jsEngine = scriptManager.getEngineByName("js");
 	}
 
-	public String run(String input) throws ScriptException {
-		return evaluate(input);
+	public String run(String input) throws Throwable {
+		String output = null;
+		
+		try {
+			output = evaluate(input);
+		} catch (ScriptException e) {
+			output = e.getMessage();
+		}
+		
+		return output;
 	}
 
 	private String evaluate(String input) throws ScriptException {
-		return jsEngine.eval(input).toString();
+		Object output = jsEngine.eval(input);
+		boolean isFinite = (Boolean) jsEngine.eval("isFinite(" + output + ")");
+		
+		if (!isFinite) {
+			throw new ScriptException("Error: invalid input");
+		}
+		
+		return output.toString();
 	}
 
 }
